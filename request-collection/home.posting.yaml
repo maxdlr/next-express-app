@@ -1,0 +1,5 @@
+name: Home
+url: http://localhost:3000
+headers:
+- name: Accept
+  value: application/json
