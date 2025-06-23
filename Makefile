@@ -17,8 +17,19 @@ MAKEFLAGS += --no-print-directory
 pt: ## Run Posting with the project request collection
 	posting --collection ./request-collection
 
+db: ## Run mongotui
+	mongotui localhost
+
+db-drop: ## Drop database
+	mongosh gedeonDB --eval "db.dropDatabase()"
+
+install-mongotui: ## Install mongotui
+	sudo curl -OL https://github.com/kreulenk/mongotui/releases/download/v1.6.0/mongotui-linux-amd64.tar.gz
+	tar -xzvf mongotui-linux-amd64.tar.gz
+	sudo mv ./mongotui /usr/local/bin/mongotui
+
 back-run: ## Run back app
-	cd back && DEBUG=back:* npm start
+	make db-drop && cd back && DEBUG=back:* npm start
 
 front-run: ## run front app
 	cd front && npm install && ng serve --host 0.0.0.0
