@@ -1,5 +1,5 @@
-name: Home
-url: http://localhost:3000/fix
+name: Fixtures
+url: http://localhost:3000/fixtures
 headers:
 - name: Accept
   value: application/json
