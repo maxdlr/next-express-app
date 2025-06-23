@@ -4,18 +4,18 @@ import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
+import indexRouter from "./routes/index.js";
+import { main } from "./models/db.ts";
+import { loadFixtures } from "./models/fixtures.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-import indexRouter from "./routes/index.js";
-import { main } from "./models/db.js";
-
 var app = express();
 
 // view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
+app.set("views", join(__dirname, "views"));
+app.set("view engine", "jade");
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -42,5 +42,6 @@ app.use(function (err, req, res, next) {
 });
 
 await main();
+loadFixtures();
 
 export default app;
