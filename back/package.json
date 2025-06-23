@@ -4,7 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node --import=tsx ./bin/www",
+    "dev": "node --import=tsx ./bin/www",
+    "build": "tsc",
+    "start:prod": "node ./dist/bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -19,6 +22,9 @@
     "@types/cookie-parser": "^1.4.9",
     "@types/express": "^5.0.3",
     "@types/http-errors": "^2.0.5",
-    "@types/morgan": "^1.9.10"
+    "@types/morgan": "^1.9.10",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
   }
 }

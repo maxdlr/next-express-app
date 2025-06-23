@@ -5,8 +5,7 @@ import { fileURLToPath } from "url";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import indexRouter from "./routes/index.js";
-import { main } from "./models/db.ts";
-import { loadFixtures } from "./models/fixtures.ts";
+import { main } from "./db-config/db.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -42,6 +41,5 @@ app.use(function (err, req, res, next) {
 });
 
 await main();
-loadFixtures();
 
 export default app;
