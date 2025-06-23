@@ -1,6 +1,6 @@
 name: deposit
 method: POST
-url: http://localhost:3000/invest-funds
+url: http://localhost:3000/valorisations
 body:
   content: |-
     {
