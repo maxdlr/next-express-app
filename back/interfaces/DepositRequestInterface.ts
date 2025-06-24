@@ -4,8 +4,7 @@ export interface DepositRequestInterface {
     rib: string;
     bic: string;
   };
-  // fund: ID[];
-  allocation: {
+  allocations: {
     isin: string;
     percentage: number;
   }[];

@@ -23,10 +23,14 @@ db: ## Run mongotui
 db-drop: ## Drop database
 	mongosh gedeonDB --eval "db.dropDatabase()"
 
-install-mongotui: ## Install mongotui
+install-mongotui-linux: ## Install mongotui
 	sudo curl -OL https://github.com/kreulenk/mongotui/releases/download/v1.6.0/mongotui-linux-amd64.tar.gz
 	tar -xzvf mongotui-linux-amd64.tar.gz
 	sudo mv ./mongotui /usr/local/bin/mongotui
+
+install-mongotui-mac: ## Install mongotui
+	brew tap kreulenk/brew
+	brew install mongotui
 
 back-run: ## Run back app
 	make db-drop && cd back && DEBUG=back:* npm start
