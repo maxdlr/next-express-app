@@ -6,6 +6,7 @@ import {
   AllocationModel,
   InvestFundModel,
   ValorisationModel,
+  TransactionModel,
 } from "../db-config/schema.ts";
 import { ApiResponse } from "../interfaces/ApiResponse.ts";
 import { ValorisationService } from "../services/ValorisationService.ts";
@@ -16,16 +17,13 @@ const router = express.Router();
 
 router.get("/fixtures", async (req, res) => {
   await loadFixtures();
-  res.send(new ApiResponse().asSuccess("Data written in db"));
+  res.send(new ApiResponse().asSuccess("Fixtures written in db"));
 });
 
 // funds
 
 router.get("/invest-funds", async (req, res) => {
-  const response = new ApiResponse(
-    await InvestFundModel.find().exec(),
-  ).asSuccess();
-  res.status(response.statusCode).send(response);
+  res.send(new ApiResponse(await InvestFundModel.find().exec()).asSuccess());
 });
 
 router.get("/invest-funds/total", async (req, res) => {
@@ -84,10 +82,7 @@ router.get("/invest-funds/partition", async (req, res) => {
 // valo
 
 router.get("/valorisations", async (req, res) => {
-  const response = new ApiResponse(
-    await ValorisationModel.find().exec(),
-  ).asSuccess();
-  res.status(response.statusCode).send(response);
+  res.send(new ApiResponse(await ValorisationModel.find().exec()).asSuccess());
 });
 
 router.get("/valorisations/:investFundIsin", async (req, res) => {
@@ -108,17 +103,21 @@ router.get("/valorisations/:investFundIsin", async (req, res) => {
   res.status(response.statusCode).send(response);
 });
 
-router.post("/valorisations", async (req, res) => {
-  const deposited: ApiResponse = await TransactionService.deposit(
-    req.body as DepositRequestInterface,
-  );
+// transactions
+
+router.get("/transactions", async (req, res) => {
+  res.send(new ApiResponse(await TransactionModel.find().exec()).asSuccess());
+});
+
+router.post("/transactions", async (req, res) => {
+  const deposited: ApiResponse = await TransactionService.deposit(req.body);
   res.status(deposited.statusCode).send(deposited);
 });
 
 // allo
 
 router.get("/allocations", async (req, res) => {
-  res.send(await AllocationModel.find({}).exec());
+  res.send(new ApiResponse(await AllocationModel.find().exec()).asSuccess());
 });
 
 export default router;
