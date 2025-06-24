@@ -38,6 +38,16 @@ const deposit = async (req: DepositRequestInterface): Promise<ApiResponse> => {
   }
 };
 
+const findFirst = async () => {
+  return await TransactionModel.findOne().sort({ date: 1 }).exec();
+};
+
+const findLast = async () => {
+  return await TransactionModel.findOne().sort({ date: -1 }).exec();
+};
+
 export const TransactionService = {
   deposit,
+  findFirst,
+  findLast,
 };
