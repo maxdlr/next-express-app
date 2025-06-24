@@ -4,7 +4,7 @@ import {
   ValorisationModel,
 } from "../db-config/schema";
 
-export const getLatestFundValues = async (
+const getLatestFundValues = async (
   allocations: Allocation[],
 ): Promise<Map<string, number>> => {
   const investedIsins = allocations.map((allo: Allocation) => allo.isin);

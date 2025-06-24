@@ -9,10 +9,7 @@ import {
 } from "../db-config/schema.ts";
 import { ApiResponse } from "../interfaces/ApiResponse.ts";
 import { ValorisationService } from "../services/ValorisationService.ts";
-import {
-  ConsultationService,
-  getLatestFundValues,
-} from "../services/ConsultationService.ts";
+import { ConsultationService } from "../services/ConsultationService.ts";
 const router = express.Router();
 
 // fixtures
