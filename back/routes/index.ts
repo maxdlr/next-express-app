@@ -19,7 +19,7 @@ router.get("/fixtures", async (req, res) => {
   res.send(new ApiResponse().asSuccess("Data written in db"));
 });
 
-// invest funds
+// funds
 
 router.get("/invest-funds", async (req, res) => {
   const response = new ApiResponse(
@@ -45,6 +45,42 @@ router.get("/invest-funds/total", async (req, res) => {
   res.status(response.statusCode).send(response);
 });
 
+router.get("/invest-funds/evolution", async (req, res) => {
+  const evolution = await ConsultationService.getPortfolioEvolution();
+
+  if (!evolution) {
+    const notFoundResponse: ApiResponse = new ApiResponse().asNotFound(
+      "No data found",
+    );
+    res.status(notFoundResponse.statusCode).send(notFoundResponse);
+    return;
+  }
+
+  const response = new ApiResponse(evolution).asSuccess(
+    "Evolution successfully retrieved",
+  );
+
+  res.status(response.statusCode).send(response);
+});
+
+router.get("/invest-funds/partition", async (req, res) => {
+  const partition = await ConsultationService.getPortfolioPartition();
+
+  if (!partition) {
+    const notFoundResponse: ApiResponse = new ApiResponse().asNotFound(
+      "No data found",
+    );
+    res.status(notFoundResponse.statusCode).send(notFoundResponse);
+    return;
+  }
+
+  const response = new ApiResponse(partition).asSuccess(
+    "Partition successfully retrieved",
+  );
+
+  res.status(response.statusCode).send(response);
+});
+
 // valo
 
 router.get("/valorisations", async (req, res) => {
@@ -55,8 +91,19 @@ router.get("/valorisations", async (req, res) => {
 });
 
 router.get("/valorisations/:investFundIsin", async (req, res) => {
-  const response = await ValorisationService.findByIsin(
-    req.params["investFundIsin"],
+  const isin = req.params["investFundIsin"];
+  const valorisations = await ValorisationService.findByIsin(isin);
+
+  if (!valorisations) {
+    const badRequestResponse = new ApiResponse().asNotFound(
+      "Can't find invest funds with isin: " + isin,
+    );
+    res.status(badRequestResponse.statusCode).send(badRequestResponse);
+    return;
+  }
+
+  const response = new ApiResponse(valorisations).asSuccess(
+    "Valorisations retrieved successfully",
   );
   res.status(response.statusCode).send(response);
 });
