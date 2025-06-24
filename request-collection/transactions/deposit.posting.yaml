@@ -1,0 +1,26 @@
+name: deposit
+method: POST
+url: http://localhost:3000/transactions
+body:
+  content: |-
+    {
+      "amount": 100,
+      "bankInfo": {
+        "rib": "rib",
+        "bic": "bic"
+      },
+      "allocations": [
+        {
+          "isin": "FR1967912075",
+          "percentage": 0.2
+        },
+        {
+          "isin": "US7150475380",
+          "percentage": 0.8
+        }
+      ]
+    }
+  content_type: application/json
+headers:
+  - name: content-type
+    value: application/json
