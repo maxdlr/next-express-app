@@ -1,7 +1,6 @@
 import express from "express";
 import { loadFixtures } from "../db-config/fixtures.ts";
 import { TransactionService } from "../services/TransactionService.ts";
-import { DepositRequestInterface } from "../interfaces/DepositRequestInterface.ts";
 import {
   AllocationModel,
   InvestFundModel,
