@@ -36,7 +36,7 @@ back-run: ## Run back app
 	make db-drop && cd back && npm install && DEBUG=back:* npm start
 
 front-run: ## run front app
-	cd front && npm install && next dev -p 4000
+	cd front && npm install && npx next dev -p 4000
 
 run: ## Run all services
 	make -j2 back-run front-run

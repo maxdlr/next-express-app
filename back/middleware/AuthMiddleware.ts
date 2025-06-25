@@ -53,7 +53,7 @@ export const authenticateToken = async (req, res, next) => {
         "-password",
       );
       if (!user) {
-        const userNotFoundRes = new ApiResponse().asNotFound(
+        const userNotFoundRes = new ApiResponse().asAuthenticationFailure(
           "User token not found",
         );
         return res.status(userNotFoundRes.statusCode).send(userNotFoundRes);
