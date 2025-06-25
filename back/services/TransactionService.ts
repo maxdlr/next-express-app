@@ -7,6 +7,7 @@ import { formatDate } from "./utils";
 const deposit = async (req: DepositRequestInterface): Promise<ApiResponse> => {
   try {
     const transaction = new TransactionModel({
+      userId: req.userId,
       amount: req.amount,
       date: formatDate(new Date()),
     });
