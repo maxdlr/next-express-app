@@ -6,11 +6,21 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import indexRouter from "./routes/index.js";
 import { main } from "./db-config/db.ts";
+import cors from "cors";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 var app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:4000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  }),
+);
 
 // view engine setup
 app.set("views", join(__dirname, "views"));

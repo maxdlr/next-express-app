@@ -33,10 +33,10 @@ install-mongotui-mac: ## Install mongotui
 	brew install mongotui
 
 back-run: ## Run back app
-	make db-drop && cd back && DEBUG=back:* npm start
+	make db-drop && cd back && npm install && DEBUG=back:* npm start
 
 front-run: ## run front app
-	cd front && npm install && ng serve --host 0.0.0.0
+	cd front && npm install && next dev -p 4000
 
 run: ## Run all services
 	make -j2 back-run front-run
