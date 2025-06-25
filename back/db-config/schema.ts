@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import * as bcrypt from "bcrypt";
+import { EncryptionService } from "../services/EncryptionService";
 
 // interfaces
 
@@ -36,10 +38,26 @@ export interface Transaction {
 // schemae
 
 export const UserSchema = new mongoose.Schema<User>({
-  email: { type: String },
-  password: { type: String },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
   username: { type: String },
 });
+
+UserSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+
+  try {
+    this.password = await EncryptionService.encrypt(this.password);
+    next();
+  } catch (error: any) {
+    next(error);
+  }
+});
+UserSchema.methods.comparePassword = async function (
+  password: string,
+): Promise<boolean> {
+  return await bcrypt.compare(password, this.password);
+};
 
 export const AllocationSchema = new mongoose.Schema<Allocation>({
   isin: { type: String },
