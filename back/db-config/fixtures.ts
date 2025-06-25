@@ -17,6 +17,7 @@ import {
   randomFloat,
   randomInt,
 } from "../services/utils.ts";
+import { EncryptionService } from "../services/EncryptionService.ts";
 
 export interface DummyData {
   isin: string;
@@ -38,7 +39,7 @@ const generateUsers = async () => {
     for (let i = 0; i < 2; i++) {
       const newUser = new UserModel({
         email: `user${i}@email.com`,
-        password: "password",
+        password: await EncryptionService.encrypt("password"),
         username: "user",
       });
       users.push(newUser);
