@@ -1,18 +1,28 @@
 "use client";
 import { ProtectedRoute } from "@/components/auth-provider";
 import EvolutionChart from "@/components/charts/evolution-chart";
-import { GraphService, PortfolioEvolutionPoint } from "@/services/GraphService";
+import PartitionChart from "@/components/charts/partition-chart";
+import {
+  GraphService,
+  PortfolioEvolutionPoint,
+  PortfolioPartition,
+} from "@/services/GraphService";
 import { useEffect, useState } from "react";
 
 export default function Dashboard() {
-  const [data, setData] = useState<PortfolioEvolutionPoint[]>([]);
+  const [evolutionData, setEvolutionData] = useState<PortfolioEvolutionPoint[]>(
+    [],
+  );
+  const [partitionData, setPartitionData] = useState<PortfolioPartition[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const evolutionData = await GraphService.getEvolutionData();
-        setData(evolutionData);
+        const partitionData = await GraphService.getPartitionData();
+        setEvolutionData(evolutionData);
+        setPartitionData(partitionData);
       } catch (error) {
         console.error("Failed to fetch data:", error);
       } finally {
@@ -29,7 +39,10 @@ export default function Dashboard() {
         {loading ? (
           <div>Loading chart data...</div>
         ) : (
-          <EvolutionChart data={data} />
+          <div>
+            <EvolutionChart data={evolutionData} />
+            <PartitionChart data={partitionData} />
+          </div>
         )}
       </main>
     </ProtectedRoute>

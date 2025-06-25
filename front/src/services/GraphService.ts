@@ -18,10 +18,14 @@ const getEvolutionData = async (): Promise<PortfolioEvolutionPoint[]> => {
   return response.payload;
 };
 
-const getPartitionData = async (): Promise<
-  ApiResponse<PortfolioPartition[]>
-> => {
-  return await ApiService.get("invest-funds/partition");
+const getPartitionData = async (): Promise<PortfolioPartition[]> => {
+  const response = await ApiService.get("invest-funds/partition");
+  const data = response.payload;
+
+  const result = data.forEach((item: PortfolioPartition) => {
+    item.value = parseFloat(item.value.toFixed(2));
+  });
+  return result;
 };
 
 export const GraphService = { getEvolutionData, getPartitionData };
