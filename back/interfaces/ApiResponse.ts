@@ -20,7 +20,9 @@ export class ApiResponse {
       | "created"
       | "bad-request"
       | "not-found"
-      | "server-failure",
+      | "server-failure"
+      | "conflict"
+      | "authentication-failure",
   ) {
     let prefix = "";
     switch (type) {
@@ -42,6 +44,14 @@ export class ApiResponse {
 
       case "server-failure":
         prefix = "Server Failure: ";
+        break;
+
+      case "authentication-failure":
+        prefix = "Authentication Failure: ";
+        break;
+
+      case "conflict":
+        prefix = "Conflict: ";
         break;
 
       default:
@@ -77,6 +87,24 @@ export class ApiResponse {
   public asServerFailure = (message?: string) => {
     this.statusCode = 500;
     if (message) this.setMessage(message, "server-failure");
+    return this;
+  };
+
+  public asAuthenticationFailure = (message?: string) => {
+    this.statusCode = 401;
+    if (message) this.setMessage(message, "authentication-failure");
+    return this;
+  };
+
+  public asAuthenticationTokenFailure = (message?: string) => {
+    this.statusCode = 403;
+    if (message) this.setMessage(message, "authentication-failure");
+    return this;
+  };
+
+  public asConflict = (message?: string) => {
+    this.statusCode = 11000;
+    if (message) this.setMessage(message, "conflict");
     return this;
   };
 }
