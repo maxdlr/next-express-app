@@ -1,5 +1,5 @@
 const baseUrl = "http://localhost:3000";
-const token = "?";
+let token: string | undefined;
 
 export interface ApiResponse {
   statusCode: number;
@@ -9,16 +9,22 @@ export interface ApiResponse {
 
 export type ApiError = ApiResponse;
 
+const findToken = () => {
+  const foundToken = localStorage.getItem("token");
+  if (foundToken) token = foundToken;
+};
+
 const post = async (
   url: string,
   payload?: object | object[],
   authenticate: boolean = true,
 ) => {
+  findToken();
   const headers: { [key: string]: string } = {
     "Content-Type": "application/json",
   };
 
-  if (authenticate) {
+  if (authenticate && token) {
     headers["Authorization"] = token;
   }
 
