@@ -2,6 +2,12 @@ import mongoose from "mongoose";
 
 // interfaces
 
+export interface User {
+  email: string;
+  password: string;
+  username: string;
+}
+
 export interface Valorisation {
   date: string;
   value: number;
@@ -28,6 +34,12 @@ export interface Transaction {
 
 // schemae
 
+export const UserSchema = new mongoose.Schema<User>({
+  email: { type: String },
+  password: { type: String },
+  username: { type: String },
+});
+
 export const AllocationSchema = new mongoose.Schema<Allocation>({
   isin: { type: String },
   percentage: { type: Number },
@@ -53,6 +65,8 @@ export const InvestFundSchema = new mongoose.Schema<InvestFund>({
 });
 
 // models
+
+export const UserModel = mongoose.model("User", UserSchema);
 
 export const AllocationModel = mongoose.model("Allocation", AllocationSchema);
 
