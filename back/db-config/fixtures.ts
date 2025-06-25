@@ -7,6 +7,8 @@ import {
   InvestFundModel,
   Transaction,
   TransactionModel,
+  User,
+  UserModel,
   ValorisationModel,
 } from "./schema.ts";
 import {
@@ -30,6 +32,23 @@ const getData = () => {
   return JSON.parse(rawData.toString());
 };
 
+const generateUsers = async () => {
+  try {
+    const users: User[] = [];
+    for (let i = 0; i < 2; i++) {
+      const newUser = new UserModel({
+        email: `user${i}@email.com`,
+        password: "password",
+        username: "user",
+      });
+      users.push(newUser);
+    }
+    UserModel.insertMany(users);
+  } catch (err) {
+    throw new Error("Can't generate users: ", err.message);
+  }
+};
+
 const generateTransactions = async () => {
   try {
     const isins = getData().map((value: DummyData) => value.isin);
@@ -46,10 +65,14 @@ const generateTransactions = async () => {
       }
     });
 
+    const users = await UserModel.find().exec();
+    const userIds: string[] = users.map((user) => user._id.toString());
+
     const transactions: Transaction[] = [];
     for (let i = 0; i < randomInt(5, 20); i++) {
       const amount = randomInt(100, 300);
       const transaction = new TransactionModel({
+        userId: userIds[randomInt(0, userIds.length - 1)],
         amount,
         date: formatDate(
           randomDate(
@@ -112,6 +135,7 @@ const hydrateData = async (): Promise<boolean> => {
 };
 
 export const loadFixtures = async () => {
+  await generateUsers();
   await hydrateData();
   await generateTransactions();
 };

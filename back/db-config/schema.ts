@@ -30,6 +30,7 @@ export interface Allocation {
 export interface Transaction {
   amount: number;
   date: string;
+  userId: string;
 }
 
 // schemae
@@ -51,6 +52,7 @@ export const AllocationSchema = new mongoose.Schema<Allocation>({
 export const TransactionSchema = new mongoose.Schema<Transaction>({
   amount: { type: Number },
   date: { type: String },
+  userId: { type: String },
 });
 
 export const ValorisationSchema = new mongoose.Schema<Valorisation>({
