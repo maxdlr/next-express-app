@@ -1,4 +1,5 @@
 export interface DepositRequestInterface {
+  userId: string;
   amount: number;
   bankInfo: {
     rib: string;
