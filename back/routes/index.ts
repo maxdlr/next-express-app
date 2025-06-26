@@ -194,6 +194,14 @@ router.get("/allocations", async (req, res) => {
   res.send(new ApiResponse(await AllocationModel.find().exec()).asSuccess());
 });
 
+router.get("/allocations/:id", async (req, res) => {
+  res.send(
+    new ApiResponse(
+      await AllocationModel.find({ transactionId: req.params["id"] }).exec(),
+    ),
+  );
+});
+
 // users
 
 router.get("/users", async (req, res) => {
