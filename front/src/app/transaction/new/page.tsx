@@ -48,7 +48,7 @@ export default function New() {
         toast.success(r.message);
         setTimeout(() => {
           redirect("/dashboard");
-        }, 100);
+        }, 400);
       } else {
         toast.error(r.message);
       }

@@ -22,6 +22,7 @@ export default function Dashboard() {
   const [transactionData, setFormattedTransactionData] = useState<
     FormattedTransaction[]
   >([]);
+  const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,9 +31,11 @@ export default function Dashboard() {
         const evolutionData = await GraphService.getEvolutionData();
         const partitionData = await GraphService.getPartitionData();
         const transactionData = await TransactionService.getAllTransactions();
+        const total = await TransactionService.getTotal();
         setEvolutionData(evolutionData);
         setPartitionData(partitionData);
         setFormattedTransactionData(transactionData);
+        setTotal(total);
       } catch (error) {
         console.error("Failed to fetch data:", error);
       } finally {
@@ -50,7 +53,13 @@ export default function Dashboard() {
           <div>Loading chart data...</div>
         ) : (
           <section>
-            <h1 className="text-2xl font-bold mb-6">Tableau de bord</h1>
+            <h1 className="text-xl font-bold mb-6">Tableau de bord</h1>
+            <div className="text-center my-10">
+              <h2 className="text-xl font-bold">Totalité</h2>
+              <span className="text-[#7700ff] text-4xl font-bold">
+                {total.toFixed(2)} €
+              </span>
+            </div>
             <div className="grid grid-cols-1 lg:grid-cols-3 grid-flow-row gap-3">
               <div className="lg:col-span-1 col-span-full">
                 <PartitionChart data={partitionData} />

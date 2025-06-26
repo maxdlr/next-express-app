@@ -27,7 +27,7 @@ export default function EvolutionChart(data: PortfolioEvolutionPoint[]) {
             <Line
               type="monotone"
               dataKey="value"
-              stroke="#8884d8"
+              stroke="#7700ff"
               strokeWidth={2}
             />
           </LineChart>

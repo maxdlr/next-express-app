@@ -61,25 +61,13 @@ const renderActiveShape = (props) => {
         outerRadius={outerRadius + 10}
         fill={fill}
       />
-      <path
-        d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
-        stroke={fill}
-        fill="none"
-      />
-      <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
       <text
-        x={ex + (cos >= 0 ? 1 : -1) * 12}
-        y={ey}
-        textAnchor={textAnchor}
+        x={cx}
+        y={cy + outerRadius + 40}
+        textAnchor="middle"
         fill="#333"
       >{`${payload.fundName}`}</text>
-      <text
-        x={ex + (cos >= 0 ? 1 : -1) * 12}
-        y={ey}
-        dy={18}
-        textAnchor={textAnchor}
-        fill="#999"
-      >
+      <text x={cx} y={cy + outerRadius + 60} textAnchor="middle" fill="#999">
         {`(Valeur ${value.toFixed(2)}€)`}
       </text>
     </g>
@@ -91,14 +79,14 @@ export default function PartitionChart(data: PortfolioPartition[]) {
     <div className="p-8">
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-4">Allocations</h2>
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer width="100%" height={300}>
           <PieChart width={730} height={730}>
             <Pie
               activeShape={renderActiveShape}
               data={data.data}
               dataKey="percentage"
               cx="50%"
-              cy="50%"
+              cy="40%"
               innerRadius={50}
               outerRadius={100}
               fill="#8884d8"

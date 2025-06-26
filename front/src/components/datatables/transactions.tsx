@@ -1,6 +1,7 @@
 import { FormattedTransaction } from "@/services/TransactionService";
 import Button from "../button/button";
 import { redirect } from "next/navigation";
+import { Utils } from "@/utils";
 
 export default function Transactions(data: FormattedTransaction[]) {
   const seeDetails = (clickEvent) => {
@@ -36,7 +37,11 @@ export default function Transactions(data: FormattedTransaction[]) {
                       <td
                         key={index}
                         scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
+                        className={`px-6 py-4 whitespace-nowrap ${
+                          Utils.formatDate(new Date()) === transaction.date
+                            ? "text-[#7700ff] font-bold"
+                            : "text-gray-900 font-medium"
+                        }`}
                       >
                         {`${value[1]}${value[0] === "amount" ? " €" : ""}`}
                       </td>

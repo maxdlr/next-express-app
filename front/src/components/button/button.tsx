@@ -1,16 +1,17 @@
 import { Utils } from "@/utils";
-import { ReactNode } from "react";
+import { ReactNode, MouseEventHandler } from "react";
 
 interface ButtonProps {
-  child?: ReactNode;
+  children?: ReactNode;
   label?: string;
   type?: "submit" | "reset" | "button";
   colors?: string;
-  id: string;
+  id?: string;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
 export default function Button({
-  child,
+  children,
   label,
   colors,
   onClick,
@@ -21,10 +22,13 @@ export default function Button({
     <button
       id={id}
       onClick={onClick}
-      itemType="{type}"
-      className={`px-9 py-2 ${colors || "bg-black text-white hover:bg-[#7700ff] active:bg-gray-200 active:text-black"} rounded-full hover:cursor-pointer active:scale-95 transition-all`}
+      type={type}
+      className={`px-9 py-2 ${
+        colors ||
+        "bg-black text-white hover:bg-[#7700ff] active:bg-gray-200 active:text-black"
+      } rounded-full hover:cursor-pointer active:scale-95 transition-all`}
     >
-      {label ? Utils.toTitle(label) : child}
+      {label ? Utils.toTitle(label) : children}
     </button>
   );
 }

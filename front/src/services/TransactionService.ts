@@ -77,4 +77,9 @@ const deposit = async (formData: FormData) => {
 
   return await ApiService.post("transactions", payload);
 };
-export const TransactionService = { deposit, getAllTransactions };
+
+const getTotal = async () => {
+  const response = await ApiService.get("invest-funds/total");
+  return response.payload;
+};
+export const TransactionService = { deposit, getAllTransactions, getTotal };
