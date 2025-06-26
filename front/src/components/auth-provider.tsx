@@ -7,9 +7,10 @@ import {
   ReactNode,
 } from "react";
 import { useRouter } from "next/navigation";
-import { ApiService } from "@/services/ApiService";
+import { ApiService, User } from "@/services/ApiService";
 
 interface AuthContextType {
+  user: User | undefined;
   isAuth: boolean;
   loading: boolean;
   logout: () => void;
@@ -19,6 +20,7 @@ const AuthContext = createContext<AuthContextType>({
   isAuth: false,
   loading: true,
   logout: () => {},
+  user: undefined,
 });
 
 interface AuthProviderProps {
@@ -28,12 +30,17 @@ interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [isAuth, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | undefined>(undefined);
   const router = useRouter();
 
   useEffect(() => {
     const checkAuth = () => {
       const token = ApiService.getToken();
-      setIsAuthenticated(!!token);
+      const userData = ApiService.getUser();
+
+      const authenticated = !!token;
+      setIsAuthenticated(authenticated);
+      setUser(userData || undefined);
       setLoading(false);
     };
 
@@ -42,12 +49,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const logout = () => {
     ApiService.removeToken();
+    ApiService.removeUser();
     setIsAuthenticated(false);
+    setUser(undefined);
     router.push("/");
   };
 
   return (
-    <AuthContext.Provider value={{ isAuth, loading, logout }}>
+    <AuthContext.Provider value={{ user, isAuth, loading, logout }}>
       {children}
     </AuthContext.Provider>
   );

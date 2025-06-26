@@ -30,7 +30,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased lg:mx-36 mx-8`}
       >
         <Nav />
-        <AuthProvider>{children}</AuthProvider>
+        <div className="mb-32">
+          <AuthProvider>{children}</AuthProvider>
+        </div>
       </body>
     </html>
   );

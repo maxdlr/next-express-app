@@ -9,7 +9,6 @@ export default function Home() {
 
   useEffect(() => {
     if (isAuth) {
-      // Use window.location for reliable redirect
       window.location.href = "/dashboard";
     }
   }, [isAuth]);

@@ -3,7 +3,6 @@
 import { PortfolioPartition } from "@/services/GraphService";
 import {
   Cell,
-  Legend,
   Pie,
   PieChart,
   ResponsiveContainer,

@@ -22,7 +22,7 @@ export default function Button({
       id={id}
       onClick={onClick}
       itemType="{type}"
-      className={`px-9 py-2 ${colors || "bg-black text-white hover:bg-blue-600 active:bg-gray-200 active:text-black"} rounded-full hover:cursor-pointer active:scale-95 transition-all`}
+      className={`px-9 py-2 ${colors || "bg-black text-white hover:bg-[#7700ff] active:bg-gray-200 active:text-black"} rounded-full hover:cursor-pointer active:scale-95 transition-all`}
     >
       {label ? Utils.toTitle(label) : child}
     </button>

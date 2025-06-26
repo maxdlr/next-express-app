@@ -1,4 +1,4 @@
-import { FormattedTransaction } from "@/services/DatatableService";
+import { FormattedTransaction } from "@/services/TransactionService";
 import Button from "../button/button";
 import { redirect } from "next/navigation";
 
@@ -6,8 +6,12 @@ export default function Transactions(data: FormattedTransaction[]) {
   const seeDetails = (clickEvent) => {
     redirect("/transaction/" + clickEvent.target.id);
   };
+  const create = () => redirect("/transaction/new");
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div className="relative overflow-x-auto sm:rounded-lg">
+      <div className="mb-4 text-right">
+        <Button label="faire une transaction" onClick={create} />
+      </div>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>

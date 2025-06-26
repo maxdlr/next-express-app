@@ -1,12 +1,8 @@
-import { ApiService } from "./ApiService";
+import { ApiService, User } from "./ApiService";
 
 export interface LoginResponse {
   token: string;
-  user: {
-    id: string;
-    email: string;
-    username: string;
-  };
+  user: User;
 }
 
 const login = async (formData: FormData) => {
@@ -16,9 +12,11 @@ const login = async (formData: FormData) => {
   const response = await ApiService.post("login", { email, password }, false);
 
   const token = response.payload?.token;
+  const user = response.payload?.user;
 
-  if (token) {
+  if (token && user) {
     ApiService.setToken(token);
+    ApiService.setUser(user);
   }
 
   return response;
@@ -26,7 +24,7 @@ const login = async (formData: FormData) => {
 
 const logout = () => {
   ApiService.removeToken();
-  // Force redirect to login page
+  ApiService.removeUser();
   if (typeof window !== "undefined") {
     window.location.href = "/";
   }
@@ -36,8 +34,13 @@ const isLoggedIn = (): boolean => {
   return ApiService.isAuthenticated();
 };
 
+const getCurrentUser = (): User | null => {
+  return ApiService.getUser();
+};
+
 export const AuthService = {
   login,
   logout,
   isLoggedIn,
+  getCurrentUser,
 };

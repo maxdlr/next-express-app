@@ -4,14 +4,14 @@ import EvolutionChart from "@/components/charts/evolution-chart";
 import PartitionChart from "@/components/charts/partition-chart";
 import Transactions from "@/components/datatables/transactions";
 import {
-  DatatableService,
-  FormattedTransaction,
-} from "@/services/DatatableService";
-import {
   GraphService,
   PortfolioEvolutionPoint,
   PortfolioPartition,
 } from "@/services/GraphService";
+import {
+  FormattedTransaction,
+  TransactionService,
+} from "@/services/TransactionService";
 import { useEffect, useState } from "react";
 
 export default function Dashboard() {
@@ -29,7 +29,7 @@ export default function Dashboard() {
       try {
         const evolutionData = await GraphService.getEvolutionData();
         const partitionData = await GraphService.getPartitionData();
-        const transactionData = await DatatableService.getAllTransactions();
+        const transactionData = await TransactionService.getAllTransactions();
         setEvolutionData(evolutionData);
         setPartitionData(partitionData);
         setFormattedTransactionData(transactionData);
