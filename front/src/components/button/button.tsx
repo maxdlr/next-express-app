@@ -1,17 +1,30 @@
 import { Utils } from "@/utils";
+import { ReactNode } from "react";
 
 interface ButtonProps {
-  label: string;
+  child?: ReactNode;
+  label?: string;
   type?: "submit" | "reset" | "button";
+  colors?: string;
+  id: string;
 }
 
-export default function Button({ label, type = "submit" }: ButtonProps) {
+export default function Button({
+  child,
+  label,
+  colors,
+  onClick,
+  id,
+  type = "submit",
+}: ButtonProps) {
   return (
     <button
+      id={id}
+      onClick={onClick}
       itemType="{type}"
-      className="px-9 py-2 bg-black rounded-full text-white hover:bg-blue-600 hover:cursor-pointer active:bg-gray-200 active:text-black"
+      className={`px-9 py-2 ${colors || "bg-black text-white hover:bg-blue-600 active:bg-gray-200 active:text-black"} rounded-full hover:cursor-pointer active:scale-95 transition-all`}
     >
-      {Utils.toTitle(label)}
+      {label ? Utils.toTitle(label) : child}
     </button>
   );
 }

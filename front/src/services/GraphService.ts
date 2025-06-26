@@ -22,10 +22,11 @@ const getPartitionData = async (): Promise<PortfolioPartition[]> => {
   const response = await ApiService.get("invest-funds/partition");
   const data = response.payload;
 
-  const result = data.forEach((item: PortfolioPartition) => {
-    item.value = parseFloat(item.value.toFixed(2));
+  data.forEach((item: PortfolioPartition) => {
+    item.percentage = parseFloat(item.percentage.toFixed(2)) * 100;
   });
-  return result;
+
+  return data;
 };
 
 export const GraphService = { getEvolutionData, getPartitionData };
