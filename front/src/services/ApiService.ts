@@ -65,7 +65,7 @@ const handleResponse = async (response: Response) => {
   if (response.status === 401 || response.status === 403) {
     removeToken();
     removeUser();
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && window.location.pathname !== "/") {
       window.location.href = "/";
     }
   }
