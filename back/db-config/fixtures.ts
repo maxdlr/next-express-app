@@ -70,7 +70,7 @@ const generateTransactions = async () => {
     const userIds: string[] = users.map((user) => user._id.toString());
 
     const transactions: Transaction[] = [];
-    for (let i = 0; i < randomInt(5, 20); i++) {
+    for (let i = 0; i < randomInt(5, 50); i++) {
       const amount = randomInt(100, 300);
       const transaction = new TransactionModel({
         userId: userIds[randomInt(0, userIds.length - 1)],
@@ -78,7 +78,9 @@ const generateTransactions = async () => {
         date: formatDate(
           randomDate(
             new Date(),
-            new Date(new Date().setDate(new Date().getDate() + 10)),
+            new Date(
+              new Date().setDate(new Date().getDate() - randomInt(5, 50)),
+            ),
           ),
         ),
       });

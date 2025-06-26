@@ -1,2 +1,5 @@
 name: find all
 url: http://localhost:3000/invest-funds
+headers:
+- name: Authorization
+  value: Bearer REDACTED
