@@ -68,7 +68,7 @@ const renderActiveShape = (props) => {
         fill="#333"
       >{`${payload.fundName}`}</text>
       <text x={cx} y={cy + outerRadius + 60} textAnchor="middle" fill="#999">
-        {`(Valeur ${value.toFixed(2)}€)`}
+        {`(Valeur ${payload.value.toFixed(2)}€)`}
       </text>
     </g>
   );

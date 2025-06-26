@@ -2,6 +2,8 @@ import { Utils } from "@/utils";
 
 interface InputProps {
   name: string;
+  label?: string;
+  autoComplete?: string;
   placeholder: string;
   type?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -9,6 +11,8 @@ interface InputProps {
 
 export default function Input({
   name,
+  label,
+  autoComplete,
   placeholder = "type here",
   type = "text",
   onChange,
@@ -20,7 +24,7 @@ export default function Input({
         className="block mb-2 text-sm font-medium text-gray-900"
       >
         <span className="text-sm font-medium text-black">
-          {Utils.toTitle(name)}
+          {Utils.toTitle(label ?? name)}
         </span>
 
         <input
@@ -28,6 +32,7 @@ export default function Input({
           id={name}
           name={name}
           placeholder={placeholder}
+          autoComplete={autoComplete ?? "auto"}
           onChange={onChange}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
         />

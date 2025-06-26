@@ -3,6 +3,7 @@ import { ProtectedRoute } from "@/components/auth-provider";
 import Button from "@/components/button/button";
 import MultiSelectDropdown from "@/components/input/dropdown";
 import Input from "@/components/input/input";
+import Loader from "@/components/loader/loader";
 import { ApiResponse } from "@/services/ApiService";
 import { InvestFund, InvestFundService } from "@/services/InvestFundService";
 import { TransactionService } from "@/services/TransactionService";
@@ -13,6 +14,7 @@ import { toast, ToastContainer } from "react-toastify";
 export default function New() {
   const [investFundData, setInvestFundData] = useState<InvestFund[]>([]);
   const [loading, setLoading] = useState(true);
+  const [purchasing, setPurchasing] = useState(false);
   const [selectedInvestFunds, setSelectedInvestFunds] = useState<string[]>([]);
   const [allocations, setAllocations] = useState<{ [key: string]: number }>({});
   const [totalAmount, setTotalAmount] = useState(0);
@@ -36,6 +38,7 @@ export default function New() {
 
   const send = async (formData: FormData) => {
     try {
+      setPurchasing(true);
       const allocationArray = selectedInvestFunds.map((isin) => ({
         isin,
         percentage: allocations[isin] / 100 || 0,
@@ -44,15 +47,16 @@ export default function New() {
       formData.set("allocations", JSON.stringify(allocationArray));
 
       const r: ApiResponse<string> = await TransactionService.deposit(formData);
-      if (r.statusCode < 400) {
-        toast.success(r.message);
-        setTimeout(() => {
-          redirect("/dashboard");
-        }, 400);
-      } else {
+
+      if (r.statusCode >= 400) {
         toast.error(r.message);
+        return;
       }
+
+      toast.success(r.message);
+      setTimeout(() => redirect("/dashboard"), 2000);
     } catch (error) {
+      setPurchasing(false);
       toast.error(error.message);
     }
   };
@@ -60,7 +64,7 @@ export default function New() {
     <ProtectedRoute>
       <main>
         {loading ? (
-          <div>loading form...</div>
+          <Loader />
         ) : (
           <div className="w-full flex justify-center items-center">
             <form action={send} className="w-96 max-sm:w-full max-sm:mx-10">
@@ -72,7 +76,7 @@ export default function New() {
                   setTotalAmount(parseFloat(e.target.value) || 0)
                 }
               />
-              <div className="grid md:grid-cols-2 grid-cols-1 gap-3">
+              <div className="grid md:grid-cols-2 grid-cols-1 md:gap-3">
                 <Input name="rib" placeholder="rib" type="text" />
                 <Input name="bic" placeholder="bic" type="text" />
               </div>
@@ -150,9 +154,9 @@ export default function New() {
               )}
               <div className="text-center mt-4">
                 <Button
-                  label={loading ? "Purchasing..." : "Purchase"}
+                  label={purchasing ? "Purchasing..." : "Purchase"}
                   type="submit"
-                  disabled={loading}
+                  disabled={purchasing}
                 />
               </div>
             </form>

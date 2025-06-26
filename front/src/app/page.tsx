@@ -1,5 +1,6 @@
 "use client";
 import { useAuth } from "@/components/auth-provider";
+import Loader from "@/components/loader/loader";
 import LoginForm from "@/components/login-form/login-form";
 import Image from "next/image";
 import { useEffect } from "react";
@@ -14,7 +15,7 @@ export default function Home() {
   }, [isAuth]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (isAuth) {

@@ -7,6 +7,7 @@ interface ButtonProps {
   type?: "submit" | "reset" | "button";
   colors?: string;
   id?: string;
+  disabled: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -16,6 +17,7 @@ export default function Button({
   colors,
   onClick,
   id,
+  disabled,
   type = "submit",
 }: ButtonProps) {
   return (
@@ -27,6 +29,7 @@ export default function Button({
         colors ||
         "bg-black text-white hover:bg-[#7700ff] active:bg-gray-200 active:text-black"
       } rounded-full hover:cursor-pointer active:scale-95 transition-all`}
+      disabled={disabled}
     >
       {label ? Utils.toTitle(label) : children}
     </button>

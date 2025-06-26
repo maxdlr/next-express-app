@@ -3,6 +3,7 @@ import { ProtectedRoute } from "@/components/auth-provider";
 import EvolutionChart from "@/components/charts/evolution-chart";
 import PartitionChart from "@/components/charts/partition-chart";
 import Transactions from "@/components/datatables/transactions";
+import Loader from "@/components/loader/loader";
 import {
   GraphService,
   PortfolioEvolutionPoint,
@@ -50,7 +51,7 @@ export default function Dashboard() {
     <ProtectedRoute>
       <main>
         {loading ? (
-          <div>Loading chart data...</div>
+          <Loader />
         ) : (
           <section>
             <h1 className="text-xl font-bold mb-6">Tableau de bord</h1>

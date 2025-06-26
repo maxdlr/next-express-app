@@ -1,6 +1,7 @@
 "use client";
 
 import { ProtectedRoute } from "@/components/auth-provider";
+import Loader from "@/components/loader/loader";
 import { Allocation, AllocationService } from "@/services/AllocationService";
 import { useState, useEffect } from "react";
 
@@ -34,7 +35,7 @@ export default function TransactionDetail() {
     <ProtectedRoute>
       <main>
         {loading ? (
-          <div>loading allocations...</div>
+          <Loader />
         ) : (
           <div className="min-h-screen">
             <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">

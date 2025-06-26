@@ -95,29 +95,6 @@ const get = async (url: string, authenticate: boolean = true) => {
   return handleResponse(response);
 };
 
-const put = async (
-  url: string,
-  payload?: object | object[],
-  authenticate: boolean = true,
-) => {
-  const headers = getHeaders(authenticate);
-  const response = await fetch(`${baseUrl}/${url}`, {
-    method: "PUT",
-    headers,
-    body: JSON.stringify(payload),
-  });
-  return handleResponse(response);
-};
-
-const del = async (url: string, authenticate: boolean = true) => {
-  const headers = getHeaders(authenticate);
-  const response = await fetch(`${baseUrl}/${url}`, {
-    method: "DELETE",
-    headers,
-  });
-  return handleResponse(response);
-};
-
 const setToken = (token: string) => {
   if (typeof window !== "undefined") {
     const expires = new Date();
@@ -154,8 +131,6 @@ const isAuthenticated = (): boolean => {
 export const ApiService = {
   post,
   get,
-  put,
-  delete: del,
   setToken,
   removeToken,
   getToken,
