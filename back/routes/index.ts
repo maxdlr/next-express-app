@@ -28,6 +28,12 @@ router.get("/fixtures", async (req, res) => {
 // auth
 
 router.post("/login", async (req, res, next) => {
+  const isFixtured = (await UserModel.find().exec()).length !== 0;
+  if (!isFixtured) {
+    console.log("No fixtures found, fixturing");
+    await loadFixtures();
+  }
+
   try {
     const loginRequest: LoginRequestInterface = req.body;
     const result = await AuthService.authenticate(loginRequest);

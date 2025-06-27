@@ -23,14 +23,14 @@ export default function LoginForm() {
       }
 
       toast.success(r.message);
-      setTimeout(() => router.push("/dashboard"), 100);
+      setTimeout(() => router.push("/dashboard"), 1000);
     } catch (error) {
       setLoading(false);
       toast.error(error.message);
     }
   };
   return (
-    <div className="w-full flex justify-center items-center">
+    <div className="w-full flex flex-col justify-center items-center">
       <form action={login} className="w-96 max-sm:w-full max-sm:mx-10">
         <Input name="email" placeholder="bruce@bat.cave" type="email" />
         <Input
@@ -48,6 +48,10 @@ export default function LoginForm() {
           />
         </div>
       </form>
+      <div className="mt-5">
+        <p>Email: user0@email.com</p>
+        <p>Mdp: password</p>
+      </div>
       <ToastContainer />
     </div>
   );

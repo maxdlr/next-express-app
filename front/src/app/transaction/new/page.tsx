@@ -67,7 +67,14 @@ export default function New() {
           <Loader />
         ) : (
           <div className="w-full flex justify-center items-center">
-            <form action={send} className="w-96 max-sm:w-full max-sm:mx-10">
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                await send(formData);
+              }}
+              className="w-96 max-sm:w-full max-sm:mx-10"
+            >
               <Input
                 name="amount"
                 placeholder="100"

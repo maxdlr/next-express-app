@@ -6,10 +6,16 @@ import { Allocation, AllocationService } from "@/services/AllocationService";
 import { useState, useEffect } from "react";
 
 export default function TransactionDetail() {
-  const id = window.location.pathname.substring("/transaction/".length);
+  // const id = window.location.pathname.substring("/transaction/".length);
 
   const [allocationData, setAllocationData] = useState<Allocation[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const [id, setId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setId(window.location.pathname.substring("/transaction/".length));
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,11 +31,18 @@ export default function TransactionDetail() {
     };
 
     fetchData();
-  }, []);
+  }, [id]);
 
-  const totalAllocatedAmount =
-    allocationData[0]?.allocatedAmount.toFixed(2) || 0;
-  const transactionIdentifier = allocationData[0]?.transactionId || "N/A";
+  const totalAllocatedAmount = allocationData.length
+    ? allocationData.reduce((acc: number, allo: Allocation) => {
+        acc += allo.allocatedAmount;
+        return acc;
+      }, 0)
+    : "0.00";
+
+  const transactionIdentifier = allocationData.length
+    ? allocationData[0].transactionId
+    : "N/A";
 
   return (
     <ProtectedRoute>
