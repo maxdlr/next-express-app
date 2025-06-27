@@ -62,7 +62,7 @@ const generateTransactions = async () => {
     const numberOfTransactions = randomInt(5, 50);
 
     for (let i = 0; i < numberOfTransactions; i++) {
-      const amount = randomInt(100, 3000);
+      const amount = randomInt(100, 1000);
       const transaction = new TransactionModel({
         userId: userIds[randomInt(0, userIds.length - 1)],
         amount,
