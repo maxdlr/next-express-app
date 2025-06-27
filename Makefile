@@ -38,6 +38,9 @@ back-run: ## Run back app
 front-run: ## run front app
 	cd front && npm install && npx next dev -p 4000
 
+test: ## Run tests
+	cd front && npm install && npm run test
+
 run: ## Run all services
 	make -j2 back-run front-run
 

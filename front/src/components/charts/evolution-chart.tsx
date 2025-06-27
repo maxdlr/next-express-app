@@ -21,7 +21,7 @@ export default function EvolutionChart(data: PortfolioEvolutionPoint[]) {
           <LineChart data={data.data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />
-            <YAxis type="number" domain={["dataMin - 10", "dataMax + 10"]} />
+            <YAxis type="number" domain={["dataMin - 100", "dataMax + 100"]} />
             <Tooltip />
             <Legend />
             <Line

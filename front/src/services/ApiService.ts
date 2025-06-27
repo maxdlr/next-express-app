@@ -65,7 +65,7 @@ const handleResponse = async (response: Response) => {
   if (response.status === 401 || response.status === 403) {
     removeToken();
     removeUser();
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && window.location.pathname !== "/") {
       window.location.href = "/";
     }
   }
@@ -90,29 +90,6 @@ const get = async (url: string, authenticate: boolean = true) => {
   const headers = getHeaders(authenticate);
   const response = await fetch(`${baseUrl}/${url}`, {
     method: "GET",
-    headers,
-  });
-  return handleResponse(response);
-};
-
-const put = async (
-  url: string,
-  payload?: object | object[],
-  authenticate: boolean = true,
-) => {
-  const headers = getHeaders(authenticate);
-  const response = await fetch(`${baseUrl}/${url}`, {
-    method: "PUT",
-    headers,
-    body: JSON.stringify(payload),
-  });
-  return handleResponse(response);
-};
-
-const del = async (url: string, authenticate: boolean = true) => {
-  const headers = getHeaders(authenticate);
-  const response = await fetch(`${baseUrl}/${url}`, {
-    method: "DELETE",
     headers,
   });
   return handleResponse(response);
@@ -154,8 +131,6 @@ const isAuthenticated = (): boolean => {
 export const ApiService = {
   post,
   get,
-  put,
-  delete: del,
   setToken,
   removeToken,
   getToken,

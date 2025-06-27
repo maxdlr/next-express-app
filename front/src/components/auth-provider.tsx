@@ -8,6 +8,7 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import { ApiService, User } from "@/services/ApiService";
+import Loader from "./loader/loader";
 
 interface AuthContextType {
   user: User | undefined;
@@ -80,7 +81,7 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   }, [isAuth, loading]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (!isAuth) {

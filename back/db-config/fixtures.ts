@@ -53,25 +53,16 @@ const generateUsers = async () => {
 const generateTransactions = async () => {
   try {
     const isins = getData().map((value: DummyData) => value.isin);
-
-    const allocations: Allocation[] = [];
-    isins.forEach((isin: string, index: number) => {
-      if (index % randomInt(1, 3) === 0) {
-        allocations.push(
-          new AllocationModel({
-            isin,
-            percentage: randomFloat(0.1, 0.9),
-          }),
-        );
-      }
-    });
-
     const users = await UserModel.find().exec();
     const userIds: string[] = users.map((user) => user._id.toString());
 
     const transactions: Transaction[] = [];
-    for (let i = 0; i < randomInt(5, 50); i++) {
-      const amount = randomInt(100, 300);
+    const allAllocations: Allocation[] = [];
+
+    const numberOfTransactions = randomInt(5, 50);
+
+    for (let i = 0; i < numberOfTransactions; i++) {
+      const amount = randomInt(100, 3000);
       const transaction = new TransactionModel({
         userId: userIds[randomInt(0, userIds.length - 1)],
         amount,
@@ -85,27 +76,49 @@ const generateTransactions = async () => {
         ),
       });
 
-      for (const allo of allocations) {
+      const shuffledIsins = isins.sort(() => 0.5 - Math.random());
+      const selectedIsins = shuffledIsins.slice(
+        0,
+        randomInt(2, Math.min(5, isins.length)),
+      );
+
+      const weights = selectedIsins.map(() => randomFloat(0.1, 1));
+      const totalWeight = weights.reduce((sum, w) => sum + w, 0);
+
+      const transactionAllocations: Allocation[] = [];
+
+      for (let j = 0; j < selectedIsins.length; j++) {
+        const isin = selectedIsins[j];
+        const percentage = weights[j] / totalWeight; // ensures total = 1
+
         const currentFundValue = await ValorisationModel.findOne({
-          investFundIsin: allo.isin,
+          investFundIsin: isin,
         })
           .sort({ date: -1 })
           .exec();
 
-        const allocatedAmount = amount * allo.percentage;
-        const purchasedShare = allocatedAmount / currentFundValue?.value;
+        const allocatedAmount = amount * percentage;
+        const purchasedShare = allocatedAmount / (currentFundValue?.value || 1);
 
-        allo.purchasedShare = purchasedShare;
-        allo.allocatedAmount = allocatedAmount;
-        allo.transactionId = transaction._id.toString();
+        transactionAllocations.push(
+          new AllocationModel({
+            isin,
+            percentage,
+            allocatedAmount,
+            purchasedShare,
+            transactionId: transaction._id.toString(),
+          }),
+        );
       }
 
+      allAllocations.push(...transactionAllocations);
       transactions.push(transaction);
     }
-    await AllocationModel.insertMany(allocations);
+
+    await AllocationModel.insertMany(allAllocations);
     await TransactionModel.insertMany(transactions);
-  } catch (err) {
-    throw new Error("Can't generate transactions: ", err.message);
+  } catch (err: any) {
+    throw new Error("Can't generate transactions: " + err.message);
   }
 };
 

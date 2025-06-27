@@ -12,14 +12,14 @@ export default function Nav() {
             src="/logo.svg"
             width={50}
             height={50}
-            alt="Picture of the author"
+            alt="Logo"
             className="cursor-pointer hover:rotate-20 transition-all active:scale-90"
           />
         </div>
       </div>
 
       <Button
-        label="deconnexion"
+        label="déconnexion"
         onClick={AuthService.logout}
         colors="bg-red-400 text-white hover:bg-red-700 active:bg-red-200 active:text-black"
       />
